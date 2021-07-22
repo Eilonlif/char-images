@@ -7,17 +7,12 @@ def generateimage(image, step, chars):
     newImage = []
     for i in range(0, len(image), step):
         newImage.append([])
-        a = 0
         for j in range(0, len(image[0]), step):
             s = 0
             for a in range(i, i + step):
                 for b in range(j, j + step):
                     s += image[a][b]
-            try:
-                a = s / math.pow(step, 2)
-            except TypeError:
-                pass
-            newImage[int(i / step)].append(chars[math.floor((float(a) / 255.0) * float(len(chars))) - 1])
+            newImage[int(i / step)].append(chars[math.floor((int(s / math.pow(step, 2)) / 255.0) * len(chars)) - 1])
     return newImage
 
 
@@ -49,7 +44,7 @@ def show(image):
     Image.fromarray(image).show()
 
 
-fname = "FILE NAME.png"  # Your image file name (with image type)
+fname = "f.jpg"  # Your image file name (with image type)
 try:
     image = np.array(Image.open(f"{fname}"), dtype="uint8")
 except FileNotFoundError as err:
