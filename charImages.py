@@ -62,8 +62,8 @@ if startx < 0 or starty < 0 or endy >= len(image) or endy >= len(image[0]) or en
     print("Something is wrong, please re-enter values")
     quit()
 
-image = image[starty: endy, startx: endx]   # Re-sizing the image
-image = tograyscale(image)                  # Gray-scaling the image
-image = generateimage(image, step, chars)   # Generating char image
-printimage(image)                           # Printing char image
-writetofile(f"{fname}_char_image", image)   # Writing to a file
+image = image[starty: endy, startx: endx]                           # Re-sizing the image
+image = tograyscale(image)                                          # Gray-scaling the image
+image = generateimage(image, step, chars)                           # Generating char image
+printimage(image)                                                   # Printing char image
+writetofile(f"{fname.replace('.', '_')}_char_image.txt", image)     # Writing to a file
