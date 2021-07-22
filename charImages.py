@@ -49,7 +49,7 @@ def show(image):
     Image.fromarray(image).show()
 
 
-fname = "f.jpg"  # Your image file name (with image type)
+fname = "FILE NAME.png"  # Your image file name (with image type)
 try:
     image = np.array(Image.open(f"{fname}"), dtype="uint8")
 except FileNotFoundError as err:
