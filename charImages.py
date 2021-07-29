@@ -66,4 +66,4 @@ image = image[starty: endy, startx: endx]                           # Re-sizing 
 image = tograyscale(image)                                          # Gray-scaling the image
 image = generateimage(image, step, chars)                           # Generating char image
 printimage(image)                                                   # Printing char image
-writetofile(f"{fname.replace('.', '_')}_char_image.txt", image)     # Writing to a file
+writetofile(f"{fname.replace('.', '_')}_char_image", image)     # Writing to a file
