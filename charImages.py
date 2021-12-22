@@ -49,7 +49,7 @@ class image:
         with open(f"{file_name}.txt", 'w') as f:
             for i in range(self.height):
                 for j in range(self.width):
-                    f.write(self.image[i][j] + " ")
+                    f.write(f"{self.image[i][j]} ")
                 f.write("\n")
 
     def show(self):
