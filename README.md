@@ -1,6 +1,6 @@
 # char images
 Converting imgaes into char-images
-Like so (a picture of myself):
+Like so:
 
 ```
 # # # # # # # # # # # # # # # # # # # # # # # # & & & # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
