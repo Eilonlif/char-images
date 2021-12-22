@@ -66,7 +66,6 @@ x1 = 1500
 y1 = 1300
 step = 10
 
-fname = "eilonimg.png"
-im = image(fname, x0, y0, x1, y1)
+im = image("eilonimg.png", x0, y0, x1, y1)
 im.convert()
 im.print_image()
