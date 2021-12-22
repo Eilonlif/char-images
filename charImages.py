@@ -1,69 +1,72 @@
-from PIL import Image
+from math import gcd
+
 import numpy as np
-import math
+from PIL import Image
 
 
-def generateimage(image, step, chars):
-    newImage = []
-    for i in range(0, len(image), step):
-        newImage.append([])
-        for j in range(0, len(image[0]), step):
-            s = 0
-            for a in range(i, i + step):
-                for b in range(j, j + step):
-                    s += image[a][b]
-            newImage[int(i / step)].append(chars[math.floor((int(s / math.pow(step, 2)) / 255.0) * len(chars)) - 1])
-    return newImage
+class image:
+    def __init__(self, image, x0, y0, x1, y1, step=None, chars=None):
+        im = np.array(Image.open(f"{image}"), dtype="uint8")
+        self.height = y1 - y0
+        self.width = x1 - x0
+        self.step = step
+        if chars is None:
+            self.chars = [".", ",", "^", "*", ";", "&", "#", "@"]
+        if step is None:
+            self.step = gcd(self.height, self.width)
+        if not self.check_image(len(im), len(im[0])):
+            raise ValueError(
+                f"Something is wrong, please re-enter values\nDimensions are: {len(im[0])}x{len(im)}, step={self.step}")
+        self.image = im[y0: y1, x0: x1]
+
+    def check_image(self, pich, picw):
+        return picw >= self.width > 0 and pich >= self.height > 0 and self.height % self.step == 0 == self.width % self.step
+
+    def gray_scale(self):
+        def gray(x):
+            return (x[0] * 0.2989) + (x[1] * 0.5870) + (x[2] * 0.1140)
+        return np.apply_along_axis(gray, 2, self.image)
+
+    def chunks(self):
+        def avg(x, i, j, s):
+            return x[i: i + s, j: j + s].mean()
+
+        ret = []
+        [ret.append([avg(self.image, i, j, self.step) for j in range(0, self.width, self.step)]) for i in
+         range(0, self.height, self.step)]
+        return np.array(ret)
+
+    def generate_image(self):
+        def to_chr(x):
+            return np.array([self.chars[int(a / 255.0 * len(self.chars))] for a in x])
+        return np.apply_along_axis(to_chr, 0, np.array(self.image))
+
+    def print_image(self):
+        [print(' '.join(l)) for l in self.image.tolist()]
+
+    def write_to_file(self, file_name):
+        with open(f"{file_name}.txt", 'w') as f:
+            for i in range(self.height):
+                for j in range(self.width):
+                    f.write(self.image[i][j] + " ")
+                f.write("\n")
+
+    def show(self):
+        Image.fromarray(self.image).show()
+
+    def convert(self):
+        self.image = self.gray_scale()
+        self.image = self.chunks()
+        self.image = self.generate_image()
 
 
-def tograyscale(image):
-    gs = []
-    for i in range(len(image)):
-        gs.append([])
-        for j in range(len(image[0])):
-            gs[i].append(int((image[i][j][0] * 0.2989) + (image[i][j][1] * 0.5870) + (image[i][j][2] * 0.1140)))
-    return gs
+x0 = 0
+y0 = 0
+x1 = 1500
+y1 = 1300
+step = 10
 
-
-def printimage(image):
-    for i in range(len(image)):
-        for j in range(len(image[i])):
-            print(image[i][j], end=" ")
-        print()
-
-
-def writetofile(fileName, image):
-    with open(f"{fileName}.txt", 'w') as f:
-        for i in range(len(image)):
-            for j in range(len(image[i])):
-                f.write(image[i][j] + " ")
-            f.write("\n")
-
-
-def show(image):
-    Image.fromarray(image).show()
-
-
-fname = "f.jpg"  # Your image file name (with image type)
-try:
-    image = np.array(Image.open(f"{fname}"), dtype="uint8")
-except FileNotFoundError as err:
-    print(err)
-    quit()
-
-chars = [".", ",", "^", "*", ";", "&", "#", "@"]
-startx = 0
-starty = 0
-endx = 800
-endy = 800
-step = 8
-
-if startx < 0 or starty < 0 or endy >= len(image) or endy >= len(image[0]) or endx < startx or endy < starty or (endx - startx) % step != 0 or (endy - starty) % step != 0:
-    print("Something is wrong, please re-enter values")
-    quit()
-
-image = image[starty: endy, startx: endx]                           # Re-sizing the image
-image = tograyscale(image)                                          # Gray-scaling the image
-image = generateimage(image, step, chars)                           # Generating char image
-printimage(image)                                                   # Printing char image
-writetofile(f"{fname.replace('.', '_')}_char_image", image)         # Writing to a file change this
+fname = "eilonimg.png"
+im = image(fname, x0, y0, x1, y1)
+im.convert()
+im.print_image()
