@@ -1,4 +1,5 @@
-# char images
+# Char Images Project
+# By: Eilon Lifshitz
 Converting imgaes into char-images
 
 New Update:
