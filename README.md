@@ -3,6 +3,7 @@ Converting imgaes into char-images
 
 New Update:
  - Can now be used in termnial
+ - Fixed some small issues
  - That's it
 
 Example for terminal:
