@@ -1,7 +1,16 @@
 # char images
 Converting imgaes into char-images
-Like so:
 
+New Update:
+ - Can now be used in termnial
+ - That's it
+
+Example for terminal:
+```python3 charImages.py picture.png 100 200 1```
+```# where 100 is x1, 200 is y1 and 1 is the step (pixel chunk size)```
+
+
+Example: (A picture of myself)
 ```
 # # # # # # # # # # # # # # # # # # # # # # # # & & & # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # & & * * ^ ^ * ; & # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
