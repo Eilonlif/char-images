@@ -27,10 +27,7 @@ class image:
         return picw >= self.width > 0 and pich >= self.height > 0 and self.height % self.step == 0 == self.width % self.step
 
     def gray_scale(self):
-        def gray(x):
-            return (x[0] * 0.2989) + (x[1] * 0.5870) + (x[2] * 0.1140)
-
-        return np.apply_along_axis(gray, 2, self.image)
+        return np.apply_along_axis(lambda x: np.dot(np.array([0.2989, 0.5870, 0.1140]), np.array(x[:3])), 2, self.image)
 
     def chunks(self):
         def avg(x, i, j, s):
@@ -109,9 +106,9 @@ def main():
     elif len(args) == 2:
         im = open_image(args[1], user_input_handler_no_args())
     else:
-        im = open_image(args[1], list(map(int,args[2:])))
+        im = open_image(args[1], list(map(int, args[2:])))
     if im is None:
-        raise ValueError("Something is wrong LOL!")
+        raise ValueError("Something is wrong!")
     user_input(im)
 
 
